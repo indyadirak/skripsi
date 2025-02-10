@@ -1,14 +1,18 @@
+<?php
+session_start();
+if(!isset($_SESSION["login"]))
+{
+    header("location: index.php");
+	exit;
+}
+$username=$_SESSION['login'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
-	<meta name="author" content="AdminKit">
-	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
-
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
@@ -45,22 +49,14 @@
 
 			        </a>
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="pages-profile.html">
+						<a class="sidebar-link" href="./dashboard_perangkat.php">
               <i class="align-middle" data-feather="airplay"></i> <span class="align-middle">dashboard perangkat</span>
             </a>
 					</li>
-			</a>
-					</li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="maps-google.html">
+					<class="sidebar-item">
+						<a class="sidebar-link" href="/menambahkan_perangkat.php">
               <i class="align-middle" data-feather="map"></i> <span class="align-middle">menambah perangkat</span>
-            </a>
-					</li>
-
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="maps-google.html">
-              <i class="align-middle" data-feather="map"></i> <span class="align-middle">mengurangi perangkat</span>
             </a>
 					</li>
 					<li class="sidebar-header">
@@ -74,14 +70,26 @@
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="maps-google.html">
+						<a class="sidebar-link" href="./menambahkan_kerentanan.php">
               <i class="align-middle" data-feather="map"></i> <span class="align-middle">menambah kerentanan</span>
+            </a>
+					</li>
+					</a>
+
+					</li>
+					<li class="sidebar-header">
+						rekomendasi
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="./dashboard_rekomendasi.php">
+              <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">dashboard</span>
             </a>
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="maps-google.html">
-              <i class="align-middle" data-feather="map"></i> <span class="align-middle">mengurangi kerentanan</span>
+						<a class="sidebar-link" href="./menambahkan_rekomendasi.php">
+              <i class="align-middle" data-feather="map"></i> <span class="align-middle">menambah rekomendasi</span>
             </a>
 					</li>
 				</ul>
@@ -103,16 +111,19 @@
               </a>
 
 							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark">Charles Hall</span>
+                <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark"><?php
+				printf("%s", $username);
+				?>
+				</span>
               </a>
 							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
+<!-- 								<a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
 								<a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analytics</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="index.html"><i class="align-middle me-1" data-feather="settings"></i> Settings & Privacy</a>
 								<a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Help Center</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">Log out</a>
+								<div class="dropdown-divider"></div> -->
+								<a class="dropdown-item" href="logout.php">Log out</a>
 							</div>
 						</li>
 					</ul>
@@ -215,12 +226,27 @@
 								</div>
 							</div>
 						</div>
+						<div class="col-xl-6 col-xxl-7">
+							<div class="card flex-fill w-100">
+								<div class="card-header">
 
+									<h5 class="card-title mb-0">shortcut dashboard</h5>
+								</div>
+								<div class="card-body">
+									<!-- Add space between buttons and make them full width -->
+									<div class="mb-3">
+										<button type="button" class="btn btn-primary btn-lg w-100" onclick="window.location.href='dashboard_perangkat.php';">perangkat</button>
+									</div>
+									<div class="mb-3">
+										<button type="button" class="btn btn-primary btn-lg w-100" onclick="window.location.href='dashboard_kerentanan.php';">kerentanan</button>
+									</div>
+									<div class="mb-3">
+										<button type="button" class="btn btn-primary btn-lg w-100" onclick="window.location.href='dashboard_rekomendasi.php';">rekomendasi</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-
-					
-
-
 				</div>
 			</main>
 
@@ -231,22 +257,6 @@
 							<p class="mb-0">
 								<a class="text-muted" href="https://adminkit.io/" target="_blank"><strong>AdminKit</strong></a> - <a class="text-muted" href="https://adminkit.io/" target="_blank"><strong>Bootstrap Admin Template</strong></a>								&copy;
 							</p>
-						</div>
-						<div class="col-6 text-end">
-							<ul class="list-inline">
-								<li class="list-inline-item">
-									<a class="text-muted" href="https://adminkit.io/" target="_blank">Support</a>
-								</li>
-								<li class="list-inline-item">
-									<a class="text-muted" href="https://adminkit.io/" target="_blank">Help Center</a>
-								</li>
-								<li class="list-inline-item">
-									<a class="text-muted" href="https://adminkit.io/" target="_blank">Privacy</a>
-								</li>
-								<li class="list-inline-item">
-									<a class="text-muted" href="https://adminkit.io/" target="_blank">Terms</a>
-								</li>
-							</ul>
 						</div>
 					</div>
 				</div>
