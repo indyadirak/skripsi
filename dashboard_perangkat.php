@@ -1,11 +1,23 @@
 <?php
+include 'connection.php';
 session_start();
 if(!isset($_SESSION["login"]))
 {
     header("location: index.php");
 	exit;
 }
+
 $username=$_SESSION['login'];
+$query = 'SELECT * FROM perangkat';
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$result = $stmt->get_result();
+$result = $result->fetch_assoc();
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +30,7 @@ $username=$_SESSION['login'];
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
-	<title>Dashboard Utama sistem manajemen risiko</title>
+	<title>Dashboard Perangkat Sistem Manajemen Risiko</title>
 
 	<link href="./dashboard.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -37,7 +49,7 @@ $username=$_SESSION['login'];
 						halaman
 					</li>
 
-					<li class="sidebar-item active">
+					<li class="sidebar-item ">
 						<a class="sidebar-link" href="./dashboard.php">
               <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard Utama</span>
             </a>
@@ -48,7 +60,7 @@ $username=$_SESSION['login'];
 					</li>
 
 			        </a>
-					<li class="sidebar-item">
+					<li class="sidebar-item active">
 						<a class="sidebar-link" href="./dashboard_perangkat.php">
               <i class="align-middle" data-feather="airplay"></i> <span class="align-middle">dashboard perangkat</span>
             </a>
@@ -133,120 +145,62 @@ $username=$_SESSION['login'];
 			<main class="content">
 				<div class="container-fluid p-0">
 
-					<h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
+					<h1 class="h3 mb-3">Device Dashboard</h1>
 
 					<div class="row">
-						<div class="col-xl-6 col-xxl-5 d-flex">
-							<div class="w-100">
-								<div class="row">
-									<div class="col-sm-6">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">perangkat</h5>
-													</div>
-
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="truck"></i>
-														</div>
-													</div>
-												</div>
-												<h1 class="mt-1 mb-3">2.382</h1>
-												<div class="mb-0">
-													<span class="text-danger">-3.65%</span>
-													<span class="text-muted">Since last week</span>
-												</div>
-											</div>
-										</div>
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Visitors</h5>
-													</div>
-
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="users"></i>
-														</div>
-													</div>
-												</div>
-												<h1 class="mt-1 mb-3">14.212</h1>
-												<div class="mb-0">
-													<span class="text-success">5.25%</span>
-													<span class="text-muted">Since last week</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Earnings</h5>
-													</div>
-
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="dollar-sign"></i>
-														</div>
-													</div>
-												</div>
-												<h1 class="mt-1 mb-3">$21.300</h1>
-												<div class="mb-0">
-													<span class="text-success">6.65%</span>
-													<span class="text-muted">Since last week</span>
-												</div>
-											</div>
-										</div>
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Orders</h5>
-													</div>
-
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="shopping-cart"></i>
-														</div>
-													</div>
-												</div>
-												<h1 class="mt-1 mb-3">64</h1>
-												<div class="mb-0">
-													<span class="text-danger">-2.25%</span>
-													<span class="text-muted">Since last week</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-6 col-xxl-7">
-							<div class="card flex-fill w-100">
+						<div class="col-12">
+							<div class="card">
 								<div class="card-header">
+									<br>
+									<br>
+									<br>
+									<h5 class="card-title mb-0">menampilkan informasi seputar perangkat yang dimiliki</h5>
 
-									<h5 class="card-title mb-0">shortcut dashboard</h5>
+									<a href="/menambahkan_perangkat.php" class="btn btn-primary position-absolute top-50 end-0 translate-middle-y">Tambah Perangkat</a>
+									<br>
+									<br>
+									<br>
 								</div>
 								<div class="card-body">
-									<!-- Add space between buttons and make them full width -->
-									<div class="mb-3">
-										<button type="button" class="btn btn-primary btn-lg w-100" onclick="window.location.href='dashboard_perangkat.php';">perangkat</button>
-									</div>
-									<div class="mb-3">
-										<button type="button" class="btn btn-primary btn-lg w-100" onclick="window.location.href='dashboard_kerentanan.php';">kerentanan</button>
-									</div>
-									<div class="mb-3">
-										<button type="button" class="btn btn-primary btn-lg w-100" onclick="window.location.href='dashboard_rekomendasi.php';">rekomendasi</button>
+								<class="mb-3">
+
+									<div class="table-responsive">
+										<table class="table table-striped table-hover">
+											<thead>
+												<tr>
+													<th scope="col">No</th>
+													<th scope="col">Nama Perangkat</th>
+													<th scope="col">IP Address</th>
+													<th scope="col">jaringan terhubung</th>
+													<th scope="col">Vendor</th>
+													<th scope="col">Sistem Operasi</th>
+													<th scope="col">versi</th>
+													<th scope="col">aksi</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php for($i = 1;$i <= $result["nomor"]; $i++)
+												{
+													echo '<tr>';
+													echo '<td>'.$result['nomor'].'</td>';
+													echo '<td>'.$result['nama'].'</td>';
+													echo '<td>'.$result['ip'].'</td>';
+													echo '<td>'.$result['jaringan'].'</td>';
+													echo '<td>'.$result['vendor'].'</td>';
+													echo '<td>'.$result['os'].'</td>';
+													echo '<td>'.$result['versi'].'</td>';
+													echo '<td><i class="align-middle me-2" data-feather="trash-2"></i></td>';
+													echo '</tr>';
+												}
+													?>
+											</tbody>
+										</table>	
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</main>
 
@@ -263,6 +217,8 @@ $username=$_SESSION['login'];
 			</footer>
 		</div>
 	</div>
+
+	<script src="js/app.js"></script>	
 
 </body>
 

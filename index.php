@@ -2,6 +2,10 @@
 include 'connection.php';
 session_start();
 $error_message = '';
+if (isset($_SESSION['login']))
+{
+    header('Location: dashboard.php');
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     $username = $_POST['email_admin'];
     $password = $_POST['password_admin'];
@@ -21,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     } else {
         $error_message = 'Username anda salah';
     }
+
     $stmt->close();
     $conn->close();
 }
