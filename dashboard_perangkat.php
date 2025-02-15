@@ -8,11 +8,27 @@ if(!isset($_SESSION["login"]))
 }
 
 $username=$_SESSION['login'];
+$query = ' SELECT COUNT(*) as nomor FROM perangkat';
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$number = $stmt->get_result();
+$number = $number->fetch_assoc();
 $query = 'SELECT * FROM perangkat';
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $result = $stmt->get_result();
-$result = $result->fetch_assoc();
+
+if(isset($_POST['hapus']))
+{
+	$id = $_POST['id'];
+	$query = 'DELETE FROM perangkat WHERE id = ?';
+	$stmt = $conn->prepare($query);
+	$stmt->bind_param('i', $id);
+	$stmt->execute();
+	header("location: dashboard_perangkat.php");
+}
+
+
 
 
 
@@ -77,7 +93,7 @@ $result = $result->fetch_assoc();
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="./dashboard_kerentanan.php">
-              <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">dashboard</span>
+              <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle"> dashboard kerentanan</span>
             </a>
 					</li>
 
@@ -95,7 +111,7 @@ $result = $result->fetch_assoc();
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="./dashboard_rekomendasi.php">
-              <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">dashboard</span>
+              <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle"> dashboard rekomendasi</span>
             </a>
 					</li>
 
@@ -146,21 +162,17 @@ $result = $result->fetch_assoc();
 				<div class="container-fluid p-0">
 
 					<h1 class="h3 mb-3">Device Dashboard</h1>
+					<h5 class="card-title mb-0">menampilkan informasi seputar perangkat yang dimiliki</h5>
+					<br>
 
 					<div class="row">
 						<div class="col-12">
 							<div class="card">
-								<div class="card-header">
-									<br>
-									<br>
-									<br>
-									<h5 class="card-title mb-0">menampilkan informasi seputar perangkat yang dimiliki</h5>
-
-									<a href="/menambahkan_perangkat.php" class="btn btn-primary position-absolute top-50 end-0 translate-middle-y">Tambah Perangkat</a>
-									<br>
-									<br>
-									<br>
-								</div>
+								<br>
+								<div class="card-header position-absolute top-0 end-0"><a href="/menambahkan_perangkat.php" class="btn btn-primary position-absolute top-50 end-0 translate-middle-y">Tambah Perangkat</a>
+								<br>								</div>
+								<br>
+								<br>
 								<div class="card-body">
 								<class="mb-3">
 
@@ -178,22 +190,28 @@ $result = $result->fetch_assoc();
 													<th scope="col">aksi</th>
 												</tr>
 											</thead>
-											<tbody>
-												<?php for($i = 1;$i <= $result["nomor"]; $i++)
-												{
-													echo '<tr>';
-													echo '<td>'.$result['nomor'].'</td>';
-													echo '<td>'.$result['nama'].'</td>';
-													echo '<td>'.$result['ip'].'</td>';
-													echo '<td>'.$result['jaringan'].'</td>';
-													echo '<td>'.$result['vendor'].'</td>';
-													echo '<td>'.$result['os'].'</td>';
-													echo '<td>'.$result['versi'].'</td>';
-													echo '<td><i class="align-middle me-2" data-feather="trash-2"></i></td>';
-													echo '</tr>';
-												}
-													?>
-											</tbody>
+											<form action="" method="post">
+												<tbody>
+													<?php 
+													$number = 1;
+													while($row = $result->fetch_assoc()) 
+													{
+
+														echo '<tr>';
+														echo '<td>'.$number.'</td>';
+														echo '<td>'.$row['nama'].'</td>';
+														echo '<td>'.$row['ip'].'</td>';
+														echo '<td>'.$row['jaringan'].'</td>';
+														echo '<td>'.$row['vendor'].'</td>';
+														echo '<td>'.$row['os'].'</td>';
+														echo '<td>'.$row['versi'].'</td>';
+														echo '<td><><i class="align-middle me-2" data-feather="trash-2"></i></td>' ;
+														echo '</tr>';
+														$number+=1;
+													}
+														?>
+												</tbody>
+											</form>
 										</table>	
 									</div>
 								</div>

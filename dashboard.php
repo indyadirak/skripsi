@@ -65,7 +65,7 @@ $username=$_SESSION['login'];
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="./dashboard_kerentanan.php">
-              <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">dashboard</span>
+              <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">dashboard kerentanan</span>
             </a>
 					</li>
 
@@ -83,7 +83,7 @@ $username=$_SESSION['login'];
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="./dashboard_rekomendasi.php">
-              <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">dashboard</span>
+              <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">dashboard rekomendasi </span>
             </a>
 					</li>
 
