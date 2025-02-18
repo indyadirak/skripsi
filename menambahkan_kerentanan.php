@@ -9,7 +9,7 @@ if (!isset($_SESSION["login"])) {
 $username = $_SESSION['login'];
 
 // Ambil daftar IP dari database
-$query = "SELECT ip FROM perangkat";
+$query = "SELECT * FROM perangkat";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $ip_proses = $stmt->get_result();
@@ -34,13 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit']))
     
 
         // Simpan data baru
-        $query = "INSERT INTO kerentanan VALUES ('$nomor', '$judul', '$ip', '$kemungkinan', '$dampak', '$risiko')";
-        $stmt = $conn->prepare($query);
-        if ($stmt->execute()) {
-            echo "<script>alert('Data berhasil dditambahkan!');</script>";
-        } else {
-            echo "<script>alert('Terjadi kesalahan!');</script>";
-        }
+	$query = "INSERT INTO kerentanan VALUES ('$nomor', '$judul', '$ip', '$kemungkinan', '$dampak', '$risiko')";
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+       //memunculkan notifikasi berhasil menambahkan perangkat
+	  echo "<script>alert('Berhasil menambahkan perangkat');</script>";
+	  echo "<script>location.href = 'dashboard_kerentanan.php';</script>";
 }
 ?>
 <!DOCTYPE html>
@@ -194,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit']))
                                             <select name="ip" class="form-select mb-3" required>
                                             <option selected>Open this select menu</option>
                                                 <?php while ($row = $ip_proses->fetch_assoc()): ?>
-                                                    <option value="<?php echo $row['ip']; ?>"><?php echo $row['ip']; ?></option>
+                                                    <option value="<?php echo $row['nomor']; ?>"><?php echo $row['ip']; ?></option>
                                                 <?php endwhile; ?>
                                             </select><br>
 										</div>

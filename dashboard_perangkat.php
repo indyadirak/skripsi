@@ -190,7 +190,8 @@ if(isset($_POST['hapus']))
 													<th scope="col">aksi</th>
 												</tr>
 											</thead>
-											<form action="" method="post">
+											<form action="hapus.php" method="post">
+												<input type="hidden" name="menu" value="1">
 												<tbody>
 													<?php 
 													$number = 1;
@@ -205,7 +206,7 @@ if(isset($_POST['hapus']))
 														echo '<td>'.$row['vendor'].'</td>';
 														echo '<td>'.$row['os'].'</td>';
 														echo '<td>'.$row['versi'].'</td>';
-														echo '<td><><i class="align-middle me-2" data-feather="trash-2"></i></td>' ;
+														echo '<td><button type="submit" name="id" value="'.$row['nomor'].'" class="btn btn-danger"><i class="align-middle me-2" data-feather="trash-2"></i>Delete</button></td>';
 														echo '</tr>';
 														$number+=1;
 													}

@@ -13,16 +13,10 @@ $stmt = $conn->prepare($query);
 $stmt->execute();
 $number = $stmt->get_result();
 $number = $number->fetch_assoc();
-$query = 'SELECT * FROM kerentanan';
+$query = 'SELECT kerentanan.nomor, kerentanan.kerentanan, perangkat.ip, kerentanan.kemungkinan, kerentanan.dampak, kerentanan.risiko FROM perangkat INNER JOIN kerentanan ON perangkat.nomor = kerentanan.ip;';
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $result = $stmt->get_result();
-
-
-
-
-
-
 
 ?>
 <!DOCTYPE html>
@@ -171,17 +165,21 @@ $result = $stmt->get_result();
 											<thead>
 												<tr>
 													<th scope="col">No</th>
-													<th scope="col">IP Address</th>
 													<th scope="col">kerentanan</th>
+													<th scope="col">IP Address</th>
 													<th scope="col">kemungkinan</th>
 													<th scope="col">dampak</th>
 													<th scope="col">risiko</th>
 													<th scope="col">status kerentanan</th>
+													<th scope="col">aksi</th>
 												</tr>
 											</thead>
 											<form action="hapus.php" method="post">
 												<tbody>
+													<form action="hapus.php" method="post">
+													<input type="hidden" name="menu" value="2">
 													<?php 
+													
 													$number = 1;
 													while($row = $result->fetch_assoc()) 
 													{
@@ -205,11 +203,12 @@ $result = $stmt->get_result();
 														{
 															echo '<td>'."rendah".'</td>';
 														}
-														echo '<td><><i class="align-middle me-2" data-feather="trash-2"></i></td>' ;
+														echo '<td><button type="submit" name="id" value="'.$row['nomor'].'" class="btn btn-danger"><i class="align-middle me-2" data-feather="trash-2"></i>Delete</button></td>';
 														echo '</tr>';
 														$number+=1;
 													}
 														?>
+														</form>
 												</tbody>
 											</form>
 										</table>	
