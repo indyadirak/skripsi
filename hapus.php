@@ -18,10 +18,10 @@
  }
  else 
  {
-    $query = "DELETE FROM kerentanan WHERE id_kerentanan='".$_POST['id']."'";
+    $query = "DELETE FROM rekomendasi WHERE nomor='".$_POST['id']."'";
     $stmt = $conn->prepare($query);
     $stmt->execute();
-    header("location: dashboard_kerentan.php");
+    header("location: dashboard_rekomendasi.php");
  }
  
 ?>

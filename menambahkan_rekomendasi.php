@@ -9,38 +9,41 @@ if (!isset($_SESSION["login"])) {
 $username = $_SESSION['login'];
 
 // Ambil daftar IP dari database
-$query = "SELECT ip FROM perangkat";
+$query = "SELECT * FROM perangkat";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $ip_proses = $stmt->get_result();
 
+//ambil daftar kerentanan dari database
+$stmt->close();
+$query = "SELECT * FROM kerentanan";
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$proses_kerentanan = $stmt->get_result();
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) 
 {
     // Ambil nomor perangkat baru
-    $query = "SELECT COUNT(*) as nomor FROM kerentanan";
+    $query = "SELECT COUNT(*) as nomor FROM rekomendasi";
     $stmt = $conn->prepare($query);
     $stmt->execute();
     $result = $stmt->get_result();
     $nomor = ($result->num_rows > 0) ? $result->fetch_assoc()['nomor'] + 1 : 1;
-    
-    // Ambil data dari form
-    $judul = $_POST['judul'];
-    $ip = $_POST['ip'];
-    $kemungkinan = $_POST['kemungkinan'];
-    $dampak = $_POST['dampak'];
 
-    //proses risiko
-    $risiko = $kemungkinan * $dampak;
-    
+	
+    // Ambil data dari form
+    $ip = $_POST['ip'];
+    $kerentanan = $_POST['kerentanan'];
+	$rekomendasi = $_POST['rekomendasi'];
 
         // Simpan data baru
-        $query = "INSERT INTO kerentanan VALUES ('$nomor', '$judul', '$ip', '$kemungkinan', '$dampak', '$risiko')";
-        $stmt = $conn->prepare($query);
-        if ($stmt->execute()) {
-            echo "<script>alert('Data berhasil dditambahkan!');</script>";
-        } else {
-            echo "<script>alert('Terjadi kesalahan!');</script>";
-        }
+	$query = "INSERT INTO rekomendasi VALUES ('$nomor', '$ip', '$kerentanan', '$rekomendasi')";
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+       //memunculkan notifikasi berhasil menambahkan perangkat
+	  echo "<script>alert('Berhasil menambahkan perangkat');</script>";
+	  echo "<script>location.href = 'dashboard_rekomendasi.php';</script>";
 }
 ?>
 <!DOCTYPE html>
@@ -179,36 +182,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit']))
 					<div class="row">
 						<div class="col-12">
 							<div class="card">
-								<form action="./menambahkan_kerentanan.php" method="post">										
+								<form action="menambahkan_rekomendasi.php" method="post">										
                                     <div class="card-body">
 										<div class="card-header">
-											<h5 class="card-title mb-0">1. judul kerentanan</h5>
-										</div>
-										<div class="card-body">
-											<input type="text" name="judul" class="form-control"  placeholder="Input">
-										</div>
-										<div class="card-header">
-											<h5 class="card-title mb-0">2. Ip Address</h5>
+											<h5 class="card-title mb-0">1. Ip Address</h5>
 										</div>
 										<div class="card-body">
                                             <select name="ip" class="form-select mb-3" required>
                                             <option selected>Open this select menu</option>
                                                 <?php while ($row = $ip_proses->fetch_assoc()): ?>
-                                                    <option value="<?php echo $row['ip']; ?>"><?php echo $row['ip']; ?></option>
+                                                    <option value="<?php echo $row['nomor']; ?>"><?php echo $row['ip']; ?></option>
                                                 <?php endwhile; ?>
                                             </select><br>
 										</div>
 										<div class="card-header">
-											<h5 class="card-title mb-0">3. kemungkinan kerentanan</h5>
+											<h5 class="card-title mb-0">2. kerentanan</h5>
 										</div>
 										<div class="card-body">
-											<input type="number" step="any" name="kemungkinan"class="form-control"  placeholder="Input">
+											<select name="kerentanan"  class="form-select mb-3" required> 
+											<option selected>Open this select menu</option>
+											<?php while ($row = $proses_kerentanan->fetch_assoc()): ?>
+                                                    <option value="<?php echo $row['nomor']; ?>"><?php echo $row['kerentanan']; ?></option>
+                                                <?php endwhile; ?>
+											</select>
 										</div>
 										<div class="card-header">
-											<h5 class="card-title mb-0">4. dampak kerentanan</h5>
+											<h5 class="card-title mb-0">3. rekomendasi</h5>
 										</div>
 										<div class="card-body">
-											<input type="number"  name="dampak" class="form-control"   placeholder="Input">
+											<input type="text"  name="rekomendasi" class="form-control"   placeholder="Input">
 										</div>
 										<br>
 										<br>
