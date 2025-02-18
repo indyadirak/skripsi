@@ -8,17 +8,34 @@ if(!isset($_SESSION["login"]))
 $username=$_SESSION['login'];
 
 include 'connection.php';
+// Ambil jumlah kerentanan
 $query = "SELECT COUNT(*) as nomor FROM kerentanan";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $result = $stmt->get_result();
 $kerentanan = ($result->num_rows > 0) ? $result->fetch_assoc()['nomor'] : 0;
+
+// Ambil jumlah perangkat
 $query = 'SELECT COUNT(*) as nomor FROM perangkat';
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $result = $stmt->get_result();
 $perangkat = (int) $result->fetch_assoc()['nomor'];
+if($perangkat == 0)
+{
+	$perangkat = 0;
+}
 
+//ambil jumlah rekomendasi
+$query = 'SELECT COUNT(*) as nomor FROM rekomendasi';
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$result = $stmt->get_result();
+$rekomendasi = (int) $result->fetch_assoc()['nomor'];
+if($rekomendasi == 0)
+{
+  $rekomendasi = 0;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -182,7 +199,7 @@ $perangkat = (int) $result->fetch_assoc()['nomor'];
 														</div>
 													</div>
 												</div>
-												<h1 class="mt-1 mb-3">14.212</h1>
+												<h1 class="mt-1 mb-3"> <?php print($rekomendasi)?></h1>
 											</div>
 										</div>
 									</div>
