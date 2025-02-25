@@ -13,7 +13,7 @@ $stmt = $conn->prepare($query);
 $stmt->execute();
 $number = $stmt->get_result();
 $number = $number->fetch_assoc();
-$query = 'SELECT kerentanan.nomor, kerentanan.kerentanan, perangkat.ip, kerentanan.kemungkinan, kerentanan.dampak, kerentanan.risiko FROM perangkat INNER JOIN kerentanan ON perangkat.nomor = kerentanan.ip;';
+$query = 'SELECT kerentanan.nomor, kerentanan.kerentanan, perangkat.ip, kerentanan.kemungkinan, kerentanan.dampak, kerentanan.risiko, kerentanan.status_rekomendasi FROM perangkat INNER JOIN kerentanan ON perangkat.nomor = kerentanan.ip;';
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -171,6 +171,7 @@ $result = $stmt->get_result();
 													<th scope="col">dampak</th>
 													<th scope="col">risiko</th>
 													<th scope="col">status kerentanan</th>
+													<th scope="col">status rekomendasi</th>
 													<th scope="col">aksi</th>
 												</tr>
 											</thead>
@@ -202,6 +203,14 @@ $result = $stmt->get_result();
 														else
 														{
 															echo '<td>'."rendah".'</td>';
+														}
+														if($row['status_rekomendasi'] == 1)
+														{
+															echo '<td>'.'<i class="align-middle me-2" data-feather="check-square"></i> <span class="align-middle">ada</span>'.'</td>';
+														}
+														else
+														{
+															echo '<td>'.'<i class="align-middle me-2" data-feather="x-square"></i> <span class="align-middle">tidak ada</span> '.'</td>';
 														}
 														echo '<td><button type="submit" name="id" value="'.$row['nomor'].'" class="btn btn-danger"><i class="align-middle me-2" data-feather="trash-2"></i>Delete</button></td>';
 														echo '</tr>';

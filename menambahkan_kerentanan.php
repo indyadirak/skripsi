@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit']))
     
 
         // Simpan data baru
-	$query = "INSERT INTO kerentanan VALUES ('$nomor', '$judul', '$ip', '$kemungkinan', '$dampak', '$risiko')";
+	$query = "INSERT INTO kerentanan VALUES ('$nomor', '$judul', '$ip', '$kemungkinan', '$dampak', '$risiko', '0')";
 	$stmt = $conn->prepare($query);
 	$stmt->execute();
        //memunculkan notifikasi berhasil menambahkan perangkat

@@ -16,7 +16,7 @@ $ip_proses = $stmt->get_result();
 
 //ambil daftar kerentanan dari database
 $stmt->close();
-$query = "SELECT * FROM kerentanan";
+$query = "SELECT kerentanan.nomor, kerentanan.kerentanan, perangkat.ip FROM kerentanan INNER JOIN perangkat ON kerentanan.ip = perangkat.nomor WHERE kerentanan.status_rekomendasi = '0'";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $proses_kerentanan = $stmt->get_result();
@@ -39,6 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit']))
 
         // Simpan data baru
 	$query = "INSERT INTO rekomendasi VALUES ('$nomor', '$ip', '$kerentanan', '$rekomendasi')";
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+	$query = "UPDATE kerentanan SET status_rekomendasi = '1' WHERE nomor = '$kerentanan'";
 	$stmt = $conn->prepare($query);
 	$stmt->execute();
        //memunculkan notifikasi berhasil menambahkan perangkat
@@ -202,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit']))
 											<select name="kerentanan"  class="form-select mb-3" required> 
 											<option selected>Open this select menu</option>
 											<?php while ($row = $proses_kerentanan->fetch_assoc()): ?>
-                                                    <option value="<?php echo $row['nomor']; ?>"><?php echo $row['kerentanan']; ?></option>
+                                                    <option value="<?php echo $row['nomor']; ?>"><?php echo $row['ip'], '-', $row['kerentanan']; ?></option>
                                                 <?php endwhile; ?>
 											</select>
 										</div>

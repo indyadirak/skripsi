@@ -21,6 +21,9 @@
     $query = "DELETE FROM rekomendasi WHERE nomor='".$_POST['id']."'";
     $stmt = $conn->prepare($query);
     $stmt->execute();
+    $query = "UPDATE kerentanan SET status_rekomendasi = 0 WHERE nomor = '".$_POST['id']."'"; 
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
     header("location: dashboard_rekomendasi.php");
  }
  
