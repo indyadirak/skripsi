@@ -169,7 +169,7 @@ if(isset($_POST['hapus']))
 						<div class="col-12">
 							<div class="card">
 								<br>
-								<div class="card-header position-absolute top-0 end-0"><a href="/menambahkan_perangkat.php" class="btn btn-primary position-absolute top-50 end-0 translate-middle-y">Tambah Perangkat</a>
+								<div class="card-header position-absolute top-0 end-0"><a href="./menambahkan_perangkat.php" class="btn btn-primary position-absolute top-50 end-0 translate-middle-y">Tambah Perangkat</a>
 								<br>								</div>
 								<br>
 								<br>
