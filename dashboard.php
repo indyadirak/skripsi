@@ -85,7 +85,7 @@ if($rekomendasi == 0)
 					</li>
 
 					<class="sidebar-item">
-						<a class="sidebar-link" href="/menambahkan_perangkat.php">
+						<a class="sidebar-link" href="./menambahkan_perangkat.php">
               <i class="align-middle" data-feather="map"></i> <span class="align-middle">menambah perangkat</span>
             </a>
 					</li>
